@@ -10,4 +10,6 @@ This module helps you to power your ContentBox seo
 
 # Usage
 
-Go to [Google API console](https://console.developers.google.com/apis/credentials) and generate a service account key, download it as json, rename it as google.json and upload to SuperSeo/models/google.json
+Go to [Google API console](https://console.developers.google.com/apis/credentials) and generate a service account key, download it as json, rename it as google.json and upload to SuperSeo/models/google.json.
+
+Add the email of service account to your analytics view and to your search console domains.
