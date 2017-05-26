@@ -1,0 +1,23 @@
+{
+    "name":"SuperSeo",
+    "version":"1.0.0",
+    "author":"Francesco Pepe",
+    "location":"https://github.com/Tropicalista/SuperSeo#v1.0.0",
+    "homepage":"https://github.com/Tropicalista/SuperSeo",
+    "documentation":"https://github.com/Tropicalista/SuperSeo",
+    "repository":{
+        "type":"git",
+        "URL":"https://github.com/Tropicalista/SuperSeo"
+    },
+    "bugs":"https://github.com/Tropicalista/SuperSeo/issues",
+    "slug":"SuperSeo",
+    "shortDescription":"A cool seo module for ContentBox",
+    "type":"contentbox-modules",
+    "dependencies":{
+    },
+    "scripts":{
+        "postVersion":"package set location='https://github.com/Tropicalista/SuperSeo#v`package version`'",
+        "onRelease":"publish",
+        "postPublish":"!git push --tags"
+    }
+}
