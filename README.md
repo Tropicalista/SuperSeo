@@ -7,3 +7,7 @@ This module helps you to power your ContentBox seo
   - Disable rss feed
   - Enable auto-excerpt
   - Manage valid extensions
+
+# Usage
+
+Go to [Google API console](https://console.developers.google.com/apis/credentials) and generate a service account key, download it as json, rename it as google.json and upload to SuperSeo/models/google.json
