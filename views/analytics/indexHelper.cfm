@@ -94,6 +94,21 @@ gapi.analytics.ready(function() {
   });
   dataChart3.execute();
 
+  var geo = new gapi.analytics.googleCharts.DataChart({
+    query: {
+    'ids': 'ga:#prc.settings.analyticsView#',
+      'start-date': '30daysAgo',
+      'end-date': 'yesterday',
+      'dimensions': 'ga:country',
+      'metrics': 'ga:users',
+    },
+    chart: {
+      type: 'GEO',
+      container: 'chart-geo'
+    }
+  });
+  geo.execute();
+
 });
 </script>
 

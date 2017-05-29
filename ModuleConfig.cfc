@@ -5,7 +5,7 @@ component {
 	this.author 			= "Francesco Pepe";
 	this.webURL 			= "www.tropicalseo.net";
 	this.description 		= "A seo module for ContentBox";
-	this.version			= "1.0.0";
+	this.version			= "1.2.1";
 	// If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
 	this.viewParentLookup 	= true;
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
@@ -31,6 +31,7 @@ component {
 		// module settings - stored in modules.name.settings
 		settings = {
 			validExtensions 	= "xml,json,jsont,rss,html,htm,cfm,print,pdf,doc",
+			analyticsView	 	= "",
 			enableCanonical	 	= false,
 			autoExcerpt		 	= false,
 			disableContentRSS 	= false,

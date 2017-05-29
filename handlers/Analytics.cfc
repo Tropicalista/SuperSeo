@@ -3,14 +3,15 @@
 */
 component{
 
-	this.prehandler_only = "index";
+	this.prehandler_only = "index,settings";
 
 	property name="analytics" inject="Analytics@SuperSeo";
 	property name="settingService"	inject="SettingService@cb";
 
 	public function preHandler( event, action, eventArguments ) {
 
-		if( !analytics.isFileUploaded() ){
+		prc.settings = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
+		if( !analytics.isFileUploaded() OR !len( prc.settings.analyticsView ) ){
 			setNextEvent( 'cbadmin.module.SuperSeo.analytics.settings' );
 		}
 	    analytics.loadAnalytics();
@@ -20,7 +21,6 @@ component{
 
 	function index(event,rc,prc){
 
-		prc.settings = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
 		if( !structKeyExists( prc.settings, 'analyticsView' ) ){
 			setNextEvent( 'cbadmin.module.SuperSeo.analytics.settings' );
 		}

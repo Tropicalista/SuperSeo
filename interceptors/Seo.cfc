@@ -24,7 +24,7 @@ component extends="coldbox.system.Interceptor"{
 
 		getInterceptor("SES").setValidExtensions( variables.settingsSeo.validExtensions );
 
-	}
+	}	
 
 	/**
 	* Fired pre event rendering

@@ -36,6 +36,10 @@ component extends="Google" {
 		return variables.wmt.urlcrawlerrorssamples().list( arguments.site, arguments.category, arguments.platform ).execute();
 	}
 
+	public function sitemaps( required string site ){
+		return variables.wmt.sitemaps().list( arguments.site ).execute();
+	}
+
 	function searchAnalytics(
 			required string site,
 			string startDate,

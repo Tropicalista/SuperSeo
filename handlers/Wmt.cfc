@@ -3,7 +3,7 @@
 */
 component{
 
-	this.prehandler_only = "index,queryErrorCount,queryErrorSample";
+	this.prehandler_only = "index,queryErrorCount,queryErrorSample,sitemaps";
 
 	property name="wmt" inject="SearchConsole@SuperSeo";
 	property name="settingService"	inject="SettingService@cb";
@@ -50,6 +50,16 @@ component{
 		prc.errorSample = wmt.queryErrorSample( prc.settings.site, rc.category, rc.platform ).urlCrawlErrorSample;
 
 		event.setView( "webmaster/errorSample" );
+
+	}
+
+	function sitemaps(event,rc,prc){
+
+		var sitemaps = wmt.sitemaps( prc.settings.site ).sitemap.toString();
+
+		prc.sitemaps = deserializeJSON(sitemaps);
+
+		event.setView( "webmaster/sitemaps" );
 
 	}
 
