@@ -64,7 +64,15 @@ component{
 	}
 
 	function settings(event,rc,prc){
-		
+
+		prc.settings = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
+
+		if( !wmt.isFileUploaded() and structKeyExists(prc.settings,"apiKey") and len( prc.settings.apiKey ) ){
+	    		wmt.setFilePath( prc.settings.apiKey );
+	   	 	wmt.loadwmt();
+		}
+
+
 		if( wmt.isFileUploaded() ){
 			prc.sites = wmt.getSites().siteEntry;
 		}

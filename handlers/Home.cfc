@@ -22,6 +22,10 @@ component{
 		param name='prc.settings.site' default='';
 		param name='prc.settings.analyticsView' default='';
 
+		param name='prc.settings.enableSearchConsole' default='false';
+		param name='prc.settings.enableAnalytics' default='false';
+
+
 		if( len( prc.settings.apiKey ) ){
 
 	    	analytics.loadAnalytics( prc.settings.apiKey );
