@@ -170,7 +170,10 @@ var access_token = '#prc.accessToken#';
 					this.$http.post("#event.buildLink('cbadmin.module.SuperSeo.analytics.save')#",{widget:JSON.stringify(item)}, {emulateJSON:true}).then( function(response){
 						this.getWidgets();
 					})
-
+					var comp = _.find(this.$refs.widgets, function(w) {
+					    return w.widget.id == item.id; 
+					});
+					comp.renderChart();
 					this.showModal = false;
 
 				},
