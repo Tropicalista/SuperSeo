@@ -79,22 +79,7 @@ var access_token = '#prc.accessToken#';
 
 		Vue.component('dashboard-widget', {
 			props: ['widget'],
-			template: '<div class="grid-stack-item"' +
-			':data-gs-x="widget.x" :data-gs-y="widget.y" :data-gs-width="widget.width" :data-gs-height="widget.height" :data-gs-min-width="widget.minWidth" :data-gs-min-height="widget.minHeight" :data-gs-max-width="widget.maxWidth" :data-gs-max-height="widget.maxHeight" :data-gs-id="widget.id">' +
-			'<div class="grid-stack-item-content">' +
-			'<div class="panel panel-default">' +
-			'<div class="panel-heading"><h3 class="panel-title">{{widget.name}}</h3>' +
-			'<div class="actions pull-right">'+
-			'<div class="btn-group btn-group-sm">' +
-			'<a class="btn btn-primary btn-sm" v-on:click="$parent.editWidget(widget.id)"><i class="fa fa-cog"></i></a>'+
-			'<a class="btn btn-danger btn-sm" v-on:click="$parent.deleteWidget(widget.id)"><i class="fa fa-times"></i></a>' +
-			'</div>'+
-			'</div>'+
-			'</div>'+
-    		'<div v-bind:id="widget.id" class="panel-body" style="min-height:200px"></div>' +
-			'</div>' +
-			'</div>' +
-			'</div>',
+			template: '##my-widget',
 
 			mounted: function () {
 
@@ -106,7 +91,7 @@ var access_token = '#prc.accessToken#';
 			methods:{
 
 				renderChart: function(){
-					console.log(this.widget.id)
+
 					var dataChart = new gapi.analytics.googleCharts.DataChart({
 						query: {
 							ids: 'ga:' + view,
@@ -116,11 +101,11 @@ var access_token = '#prc.accessToken#';
 							'end-date': this.widget.settings.date.endDate
 						},
 						chart: {
-							container: this.widget.id,
+							container: "widget-" + this.widget.id,
 							type: this.widget.settings.chart ? this.widget.settings.chart : 'LINE',
 							options: {
 								width: '100%',
-								height: this.$el.offsetHeight - 60
+								height: this.$el.offsetHeight - 100
 							}
 						}
 					}).execute();
@@ -135,13 +120,11 @@ var access_token = '#prc.accessToken#';
 		    el: '##manage-vue',
 
 		    data: {
-				showModal: false,
-				edit: false,
-				widgets: [],
-				item:{
-					title: '',
-					settings: {}
-				}
+				showSaveButton	: false,
+				showModal		: false,
+				edit 			: false,
+				widgets 		: [],
+				item 			: {}
 		    },
 
 		  	mounted : function(){
@@ -152,20 +135,23 @@ var access_token = '#prc.accessToken#';
 				  verticalMargin: 10,
 				  auto: true
 				};
-				jQuery('.grid-stack').gridstack(options);
+				$('.grid-stack').gridstack(options);
 
 		  		var mm = this;
-				jQuery('.grid-stack').on('change', function(event, items) {
-					//mm.updateWidgets(items)
-				})
 
 				$('.grid-stack').on('gsresizestop', function(event, elem) {
+					mm.showSaveButton = true;
+					console.log(this.showSaveButton)
 					var comp = _.find(mm.$refs.widgets, function(item) {
 					    return item.widget.id == $(elem).attr("data-gs-id"); 
 					});
-					//mm.updateWidgets()
+					mm.updateWidgets()
 				    comp.renderChart()
 				});
+
+				$('.grid-stack').on('dragstop', function(event, ui) {
+					mm.updateWidgets()
+				});				
 
 		  	},
 
@@ -179,13 +165,13 @@ var access_token = '#prc.accessToken#';
 						});
 				},
 
-				createWidget (item) {
+				saveWidget (item) {
 
-					this.$http.post("#event.buildLink('cbadmin.module.SuperSeo.analytics.save')#",{settings:JSON.stringify(item)}, {emulateJSON:true}).then( function(response){
+					this.$http.post("#event.buildLink('cbadmin.module.SuperSeo.analytics.save')#",{widget:JSON.stringify(item)}, {emulateJSON:true}).then( function(response){
 						this.getWidgets();
 					})
 
-					$('##myModal').modal('hide');
+					this.showModal = false;
 
 				},
 
@@ -200,27 +186,20 @@ var access_token = '#prc.accessToken#';
 
 		        editWidget: function(item){
 
-					$('##myModal').modal('show');
-					this.widget = this.widgets.filter(function(elem){
+					var obj = this.widgets.filter(function(elem){
 						if(elem.id == item) return elem; 
 					})
+					this.item = obj[0];
+					this.showModal = true;
 
 		        },
 
-		        showModal: function(flag){
+		        openModal: function(){
 
-
-
-		        },
-
-		        updateItem: function(id){
-		          	var input = this.fillItem;
-		          	console.log(this.fillItem)
-		              this.changePage(this.pagination.current_page);
-		              this.fillItem = {'title':'','description':'','id':''};
-		              $("##edit-item").modal('hide');
-		              this.items.push(this.fillItem);
-		              toastr.success('Item Updated Successfully.', 'Success Alert', {timeOut: 5000});
+		        	this.showModal = true;
+		        	this.item = {
+		        		settings: {}
+		        	};
 
 		        },
 
@@ -240,9 +219,11 @@ var access_token = '#prc.accessToken#';
 		                }
 	                });
 	                if(res.length) {     
-						this.$http.post("#event.buildLink('cbadmin.module.SuperSeo.analytics.list')#", {action: 'update_multi', widgets:_.without(res, undefined)}, {
+						this.$http.post("#event.buildLink('cbadmin.module.SuperSeo.analytics.bulkSave')#", {widgets: JSON.stringify(_.without(res, undefined)) }, {
 						emulateJSON: true
-						} )
+						} ).then( function(response){
+							toastr.success('Dashboard saved!', 'Success Alert', {timeOut: 3000});
+						});
 					}
 		        }
 

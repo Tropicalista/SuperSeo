@@ -57,27 +57,39 @@ component{
 	}
 
 	function save(){
-        event.paramValue("id",0);
-        event.paramValue("x",0);
-        event.paramValue("y",0);
-        event.paramValue("width",4);
-        event.paramValue("height",4);
 
-        var data = deserializeJSON( rc.settings );
+        var data = deserializeJSON( rc.widget );
+		if( !structKeyExists( data, "id" ) ){
+			data.id = 0;
+		}
 
-        var widget = widgetService.get( rc.id );
 
-        widget.setName( data.title );
-        widget.setX( rc.x );
-        widget.setY( rc.y );
-        widget.setWidth( rc.width );
-        widget.setHeight( rc.height );
-        widget.setSettings( data.settings );
+        var widget = populateModel( model=widgetService.get( data.id) , memento=data );
 
         widgetService.save( widget );
 
 		event.renderData( type="json", data=widget.getMemento() );
 	}
+
+    function bulkSave(event,rc,prc){
+
+    	var widgets = deserializeJSON( rc.widgets );
+
+		var sql = "INSERT INTO cb_ss_widget (id,x,y,width,height) VALUES ";
+		for( w in widgets ){
+			sql &= "( #w.id#, #w.x#, #w.y#, #w.width#, #w.height# ),";
+		}
+		sql = left( sql, len(sql) -1 );
+
+		sql &= " ON DUPLICATE KEY UPDATE `x`=VALUES(`x`),`y`=VALUES(`y`),`width`=VALUES(`width`),`height`=VALUES(`height`);";
+
+	    myQry = new Query();     
+	    myQry.setSQL(sql);
+	    qryRes = myQry.execute();
+ 	
+		event.renderData( type="json", data="widget updated" );
+
+    }
 
     function delete(event,rc,prc){
         event.paramValue("id",0);
