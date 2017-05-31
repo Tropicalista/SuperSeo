@@ -13,7 +13,7 @@ component{
 
 		prc.settings = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
 
-		if( len( prc.settings.apiKey ) ){
+		if( structKeyExists (prc.settings,"apiKey") and len( prc.settings.apiKey ) ){
 
 	    	analytics.loadAnalytics( prc.settings.apiKey );
 			//prc.profiles = analytics.getProfiles().items;
@@ -94,7 +94,7 @@ component{
     function delete(event,rc,prc){
         event.paramValue("id",0);
         widgetService.deleteByID( rc.id );
-		
+
 		event.renderData( type="json", data="widget deleted" );
 
     }

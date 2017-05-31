@@ -55,16 +55,27 @@ component{
 
 	function sitemaps(event,rc,prc){
 
-		var sitemaps = wmt.sitemaps( prc.settings.site ).sitemap.toString();
+		prc.sitemaps = {};
 
-		prc.sitemaps = deserializeJSON(sitemaps);
+		if ( len(wmt.sitemaps( prc.settings.site )) ){
+			var sitemaps = wmt.sitemaps( prc.settings.site ).sitemap.toString();
+			prc.sitemaps = deserializeJSON(sitemaps);
+		}
 
 		event.setView( "webmaster/sitemaps" );
 
 	}
 
 	function settings(event,rc,prc){
-		
+
+		prc.settings = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
+
+		if( !wmt.isFileUploaded() and structKeyExists(prc.settings,"apiKey") and len( prc.settings.apiKey ) ){
+	    		wmt.setFilePath( prc.settings.apiKey );
+	   	 	wmt.loadwmt();
+		}
+
+
 		if( wmt.isFileUploaded() ){
 			prc.sites = wmt.getSites().siteEntry;
 		}

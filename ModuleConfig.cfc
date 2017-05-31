@@ -93,11 +93,11 @@ component {
 		// Add Menu Contribution
 		menuService.addTopMenu( name="superSeo", label='<i class="fa fa-google"></i> SuperSeo', href="##" );
 
-		if( settings.enableAnalytics ){
+		if( structKeyExists( settings, 'enableAnalytics' ) and settings.enableAnalytics ){
 			menuService.addSubMenu( topMenu="superSeo", name="Analytics", label="Analytics", href="#menuService.buildModuleLink( 'superSeo', 'analytics.index' )#");
 		}
 
-		if( settings.enableSearchConsole ){
+		if( structKeyExists( settings, 'enableSearchConsole' ) and settings.enableSearchConsole ){
 			menuService.addSubMenu( topMenu="superSeo", name="Search Console", label="Search Console", href="#menuService.buildModuleLink( 'superSeo', 'wmt.index' )#");
 		}
 
