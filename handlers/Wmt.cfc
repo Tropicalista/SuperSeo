@@ -55,9 +55,12 @@ component{
 
 	function sitemaps(event,rc,prc){
 
-		var sitemaps = wmt.sitemaps( prc.settings.site ).sitemap.toString();
+		prc.sitemaps = {};
 
-		prc.sitemaps = deserializeJSON(sitemaps);
+		if ( len(wmt.sitemaps( prc.settings.site )) ){
+			var sitemaps = wmt.sitemaps( prc.settings.site ).sitemap.toString();
+			prc.sitemaps = deserializeJSON(sitemaps);
+		}
 
 		event.setView( "webmaster/sitemaps" );
 
