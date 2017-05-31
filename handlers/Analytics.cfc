@@ -45,8 +45,15 @@ component{
 	}
 
 	function list(){
-		var list = widgetService.list(asQuery=false);
-		event.renderData( type="json", data=list );
+		var list = widgetService.getAll();
+
+		var result = [];
+
+		for( w in list ){
+			result.append( w.getMemento() );
+		}
+
+		event.renderData( type="json", data=result );
 	}
 
 	function save(){

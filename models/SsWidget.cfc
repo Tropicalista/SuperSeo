@@ -29,7 +29,7 @@ component entityname="ssWidget"
 	/**
 	* Get memento representation
 	*/
-	public struct function getMemento(string exclude=""){
+	public struct function getMemento( string exclude = "" ){
 		var data = {};
 		var props = getMetaData(this).properties;
 		

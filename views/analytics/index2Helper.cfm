@@ -86,12 +86,12 @@ var access_token = '#prc.accessToken#';
 			'<div class="panel-heading"><h3 class="panel-title">{{widget.name}}</h3>' +
 			'<div class="actions pull-right">'+
 			'<div class="btn-group btn-group-sm">' +
-			'<a class="btn btn-primary btn-sm" @click="showModal = true" v-on:click="$parent.editWidget(widget.id)"><i class="fa fa-edit"></i></a>'+
+			'<a class="btn btn-primary btn-sm" @click="showModal = true" v-on:click="$parent.editWidget(widget.id)"><i class="fa fa-cog"></i></a>'+
 			'<a class="btn btn-danger btn-sm" v-on:click="$parent.deleteWidget(widget.id)"><i class="fa fa-times"></i></a>' +
 			'</div>'+
 			'</div>'+
 			'</div>'+
-    		'<div v-bind:id="widget.id" class="panel-body"></div>' +
+    		'<div v-bind:id="widget.id" class="panel-body" style="min-height:200px"></div>' +
 			'</div>' +
 			'</div>' +
 			'</div>',
@@ -162,6 +162,7 @@ var access_token = '#prc.accessToken#';
 					var comp = _.find(mm.$refs.widgets, function(item) {
 					    return item.widget.id == $(elem).attr("data-gs-id"); 
 					});
+					//mm.updateWidgets()
 				    comp.renderChart()
 				});
 
