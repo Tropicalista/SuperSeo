@@ -2,7 +2,7 @@
     "name":"SuperSeo",
     "version":"1.4.0",
     "author":"Francesco Pepe",
-    "location":"https://github.com/Tropicalista/SuperSeo/archive/v1.4.0.zip",
+    "location":"https://github.com/Tropicalista/SuperSeo/archive/master.zip",
     "homepage":"https://github.com/Tropicalista/SuperSeo",
     "slug":"SuperSeo",
     "documentation":"https://github.com/Tropicalista/SuperSeo",
@@ -23,7 +23,7 @@
         }
     ],
     "scripts":{
-        "postVersion":"package set location='https://github.com/Tropicalista/SuperSeo/archive/v`package version`.zip'",
+        "postVersion":"package set location='https://github.com/Tropicalista/SuperSeo/archive/master.zip'",
         "onRelease":"publish",
         "postPublish":"!git push && !git push --tags"
     }

@@ -3,7 +3,7 @@ component accessors="true" singleton{
 	property name="jLoader" inject="loader@cbjavaloader";
 	property name="token";
 	property name="expire";
-	property name="scope";
+	property name="filePath" default="";
 
 	THIS.applicationName = cgi.SERVER_NAME;
 
@@ -70,12 +70,15 @@ component accessors="true" singleton{
 
 	}
 
-	public function isFileUploaded(){
+	public boolean function isFileUploaded(){
+		if(!len(getFilePath())){
+			return false;
+		}
 		return fileExists( getFileName() );
 	}
 
 	private function getFileName(){
-		return getDirectoryFromPath( getCurrentTemplatePath() )  & "google.json";
+		return getDirectoryFromPath( getCurrentTemplatePath() )  & getFilePath();
 	}
 
 }

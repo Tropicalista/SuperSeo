@@ -4,10 +4,11 @@
 component{
 
 	property name="settingService"	inject="SettingService@cb";
+	property name="menuService"	inject="AdminMenuService@cb";
 	property name="jLoader" inject="loader@cbjavaloader";
 	property name="s" inject="Google@SuperSeo";
-	property name="a" inject="Analytics@SuperSeo";
-	property name="g" inject="SearchConsole@SuperSeo";
+	property name="analytics" inject="Analytics@SuperSeo";
+	property name="searchConsole" inject="SearchConsole@SuperSeo";
 
 	public function preHandler( event, action, eventArguments ) {
 
@@ -17,6 +18,17 @@ component{
 
 	function index(event,rc,prc){
 
+		param name='prc.settings.apiKey' default='';
+		param name='prc.settings.site' default='';
+		param name='prc.settings.analyticsView' default='';
+
+		if( len( prc.settings.apiKey ) ){
+
+	    	analytics.loadAnalytics( prc.settings.apiKey );
+			prc.profiles = analytics.getProfiles().items;
+
+		}
+
 		event.setView( "settings" );
 
 	}
@@ -25,6 +37,20 @@ component{
 
 		var args = { name="cbox-super-seo" };
 		prc.settings = settingService.findWhere( criteria=args );
+
+		if( rc.seo.enableAnalytics ){
+			if( ArrayIsEmpty( structFindValue( menuservice.getTopMenuMap().superSeo, 'analytics') ) )
+				menuService.addSubMenu( topMenu="superSeo", name="Analytics", label="Analytics", href="#menuService.buildModuleLink( 'superSeo', 'analytics.index' )#");
+		}else{
+			menuService.removeSubMenu( topMenu="superSeo", name="Analytics");
+		}
+
+		if( rc.seo.enableSearchConsole ){
+			if( ArrayIsEmpty( structFindValue( menuservice.getTopMenuMap().superSeo, 'Search Console') ) )
+				menuService.addSubMenu( topMenu="superSeo", name="Search Console", label="Search Console", href="#menuService.buildModuleLink( 'superSeo', 'wmt.index' )#");
+		}else{
+			menuService.removeSubMenu( topMenu="superSeo", name="Search Console");
+		}
 
 		prc.settings.setValue( serializeJSON(rc.seo) );
 		settingService.save( prc.settings );

@@ -65,7 +65,9 @@ component{
 
 	function settings(event,rc,prc){
 		
-		prc.sites = wmt.getSites().siteEntry;
+		if( wmt.isFileUploaded() ){
+			prc.sites = wmt.getSites().siteEntry;
+		}
 
 		prc.settings = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
 		event.setView( "webmaster/settings" );

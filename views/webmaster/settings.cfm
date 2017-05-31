@@ -4,6 +4,7 @@
 
 <div class="row">
 
+    <cfif structKeyExists( prc, "sites" ) && ArrayLen(prc.sites)>
     <div class="col-md-6">
 
         #getInstance("MessageBox@cbmessagebox").renderit()#
@@ -19,7 +20,6 @@
 
             <div class="panel-body">     
 
-        		<cfif ArrayLen(prc.sites)>
     		    <div class="form-group">
     		        <label class="control-label" for="site">Site:</label>
     		        <select class="form-control" name="site">
@@ -28,7 +28,6 @@
     		            </cfloop>
     		        </select>
     		    </div>
-    		    </cfif>
 
             </div>
 
@@ -43,6 +42,8 @@
 
     </div>
 
+    <cfelse>
+
     <div class="col-md-6">
         <div class="panel panel-default">
 
@@ -56,6 +57,7 @@
         </div>
 
     </div>
+    </cfif>
 
 </div>
 </cfoutput>

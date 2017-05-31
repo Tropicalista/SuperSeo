@@ -31,7 +31,11 @@ component {
 		// module settings - stored in modules.name.settings
 		settings = {
 			validExtensions 	= "xml,json,jsont,rss,html,htm,cfm,print,pdf,doc",
+			apiKey	 			= "",
+			site	 			= "",
 			analyticsView	 	= "",
+			enableAnalytics	 	= false,
+			enableSearchConsole	= false,
 			enableCanonical	 	= false,
 			autoExcerpt		 	= false,
 			disableContentRSS 	= false,
@@ -75,13 +79,30 @@ component {
 	* Fired when the module is registered and activated.
 	*/
 	function onLoad(){
+
+		var settingService = controller.getWireBox().getInstance("SettingService@cb");
+		// store default settings
+		var findArgs = { name="cbox-super-seo" };
+		var setting = settingService.findWhere( criteria=findArgs );
+
+		var settings = deserializeJSON( setting.getValue() );
+
 		// Let's add ourselves to the main menu in the Modules section
 		var menuService = controller.getWireBox().getInstance("AdminMenuService@cb");
+		
 		// Add Menu Contribution
 		menuService.addTopMenu( name="superSeo", label='<i class="fa fa-google"></i> SuperSeo', href="##" );
-		menuService.addSubMenu( topMenu="superSeo", name="Analytics", label="Analytics", href="#menuService.buildModuleLink( 'superSeo', 'analytics.index' )#");
-		menuService.addSubMenu( topMenu="superSeo", name="Search Console", label="Search Console", href="#menuService.buildModuleLink( 'superSeo', 'wmt.index' )#");
+
+		if( settings.enableAnalytics ){
+			menuService.addSubMenu( topMenu="superSeo", name="Analytics", label="Analytics", href="#menuService.buildModuleLink( 'superSeo', 'analytics.index' )#");
+		}
+
+		if( settings.enableSearchConsole ){
+			menuService.addSubMenu( topMenu="superSeo", name="Search Console", label="Search Console", href="#menuService.buildModuleLink( 'superSeo', 'wmt.index' )#");
+		}
+
 		menuService.addSubMenu( topMenu="superSeo", name="Settings", label="Settings", href="#menuService.buildModuleLink( 'superSeo', 'home' )#");
+		
 		// load lib
 		var jLoader = controller.getWireBox().getInstance( "loader@cbjavaloader" );
 		jLoader.appendPaths( modulePath & "\lib" );
@@ -114,7 +135,7 @@ component {
 		var args = { name="cbox-super-seo" };
 		var setting = settingService.findWhere( criteria=args );
 		if( !isNull( setting ) ){
-			settingService.delete( setting );
+			//settingService.delete( setting );
 		}
 
 	}

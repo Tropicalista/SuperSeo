@@ -102,7 +102,7 @@
             <div class="form-group">
                 #html.label(
                     class   = "control-label",
-                    field   = "seo.autoExcerpt",
+                    field   = "seo.enableCanonical",
                     content = "Enable rel canonical:"
                 )#
                 
@@ -119,6 +119,83 @@
                     )#
                 </div>
             </div>
+
+            <div class="form-group">
+                #html.label(
+                    class   = "control-label",
+                    field   = "seo.enableSearchConsole",
+                    content = "Enable Google Search Console dashboard:"
+                )#
+                
+                <div class="controls">
+                    <small>If enabled, it will add a dashboard to display your Search Console chart</small><br/><br/>      
+                    #html.checkbox(
+                        name    = "enableSearchConsole_toggle",
+                        data    = { toggle: 'toggle', match: 'seo\.enableSearchConsole' },
+                        checked = prc.settings.enableSearchConsole
+                    )#
+                    #html.hiddenField(
+                        name    = "seo.enableSearchConsole",
+                        value = prc.settings.enableSearchConsole
+                    )#
+                </div>
+            </div>
+
+            <cfif prc.settings.enableAnalytics && structKeyExists( prc, "profiles" ) && ArrayLen(prc.profiles)>
+
+            <div class="form-group">
+                <label class="control-label" for="profile">Profile:</label>
+                <select class="form-control" name="seo.site">
+                    <cfloop array=#prc.profiles# index="profile">
+                        <option value="#profile.id#" <cfif profile.id EQ prc.settings.site>selected</cfif>>#profile.name#</option>
+                    </cfloop>
+                </select>
+            </div>
+
+            </cfif>
+
+            <div class="form-group">
+                #html.label(
+                    class   = "control-label",
+                    field   = "seo.enableAnalytics",
+                    content = "Enable Google Analytics dashboard:"
+                )#
+                
+                <div class="controls">
+                    <small>If enabled, it will add a dashboard to display your Analytics chart</small><br/><br/>      
+                    #html.checkbox(
+                        name    = "enableAnalytics_toggle",
+                        data    = { toggle: 'toggle', match: 'seo\.enableAnalytics' },
+                        checked = prc.settings.enableAnalytics
+                    )#
+                    #html.hiddenField(
+                        name    = "seo.enableAnalytics",
+                        value = prc.settings.enableAnalytics
+                    )#
+                </div>
+            </div>
+
+            <cfif prc.settings.enableAnalytics || prc.settings.enableSearchConsole>
+
+            <div class="form-group">
+                <label class="control-label" for="profile">Your json file name:</label>
+                <input type="text" name="seo.apiKey" value="#prc.settings.apiKey#" class="form-control valid" title="" data-original-title="Insert your json file api key name" aria-invalid="false">
+            </div>
+
+            </cfif>
+
+            <cfif prc.settings.enableAnalytics && structKeyExists( prc, "profiles" ) && ArrayLen(prc.profiles)>
+
+            <div class="form-group">
+                <label class="control-label" for="profile">Profile:</label>
+                <select class="form-control" name="seo.analyticsView">
+                    <cfloop array=#prc.profiles# index="profile">
+                        <option value="#profile.id#" <cfif profile.id EQ prc.settings.analyticsView>selected</cfif>>#profile.name#</option>
+                    </cfloop>
+                </select>
+            </div>
+
+            </cfif>
 
             <!--- Button Bar --->
             <div class="form-actions">

@@ -1,12 +1,12 @@
 component extends="Google" {
 
 	Analytics function init(){
-		super.init();
 		return this;
 	}
+	
+	public function loadAnalytics( string filePath ){
 
-	public function loadAnalytics(){
-
+		setFilePath( arguments.filePath );
 		var scopes = jLoader.create("com.google.api.services.analytics.AnalyticsScopes");
 
 		if( isFileUploaded() ){

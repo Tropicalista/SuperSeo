@@ -7,23 +7,23 @@ component extends="coldbox.system.Interceptor"{
 	*/
 	function configure(){
 
-		var findArgs = { name="cbox-super-seo" };
-		var setting = settingService.findWhere( criteria=findArgs );
-		if( !isNull(setting) ){
-
-			variables.settingsSeo = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
-
-		}
-
 	}
 
 	/**
 	* Set valid extensions
 	*/
 	function afterConfigurationLoad( event, rc, prc, interceptData, buffer ){
+		
+		var findArgs = { name="cbox-super-seo" };
+		var setting = settingService.findWhere( criteria=findArgs );
+		if( !isNull(setting) ){
 
-		getInterceptor("SES").setValidExtensions( variables.settingsSeo.validExtensions );
+			variables.settingsSeo = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
+			getInterceptor("SES").setValidExtensions( variables.settingsSeo.validExtensions );
 
+		}
+
+		
 	}	
 
 	/**
