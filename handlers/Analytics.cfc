@@ -11,13 +11,6 @@ component{
 
 	public function preHandler( event, action, eventArguments ) {
 
-		c = entityLoadByPK( "ssWidget", 13);
-
-		d={c=12}
-		//c.setSettings(d);
-		dump(c.getMemento());
-		abort;
-
 		prc.settings = deserializeJSON( settingService.getSetting( "cbox-super-seo" ) );
 
 		if( len( prc.settings.apiKey ) ){
@@ -68,8 +61,7 @@ component{
         var widget = widgetService.get( rc.id );
         widget.setName( data.title );
         widget.setSettings( data.settings );
-dump(widget);
-abort;
+
         widgetService.save( widget );
 
 		event.renderData( type="json", data=widget.getMemento() );
