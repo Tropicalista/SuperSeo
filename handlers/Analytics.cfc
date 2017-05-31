@@ -60,13 +60,18 @@ component{
         event.paramValue("id",0);
         event.paramValue("x",0);
         event.paramValue("y",0);
-        event.paramValue("width",2);
-        event.paramValue("height",2);
+        event.paramValue("width",4);
+        event.paramValue("height",4);
 
         var data = deserializeJSON( rc.settings );
 
         var widget = widgetService.get( rc.id );
+
         widget.setName( data.title );
+        widget.setX( rc.x );
+        widget.setY( rc.y );
+        widget.setWidth( rc.width );
+        widget.setHeight( rc.height );
         widget.setSettings( data.settings );
 
         widgetService.save( widget );

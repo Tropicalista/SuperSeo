@@ -86,7 +86,7 @@ var access_token = '#prc.accessToken#';
 			'<div class="panel-heading"><h3 class="panel-title">{{widget.name}}</h3>' +
 			'<div class="actions pull-right">'+
 			'<div class="btn-group btn-group-sm">' +
-			'<a class="btn btn-primary btn-sm" @click="showModal = true" v-on:click="$parent.editWidget(widget.id)"><i class="fa fa-cog"></i></a>'+
+			'<a class="btn btn-primary btn-sm" v-on:click="$parent.editWidget(widget.id)"><i class="fa fa-cog"></i></a>'+
 			'<a class="btn btn-danger btn-sm" v-on:click="$parent.deleteWidget(widget.id)"><i class="fa fa-times"></i></a>' +
 			'</div>'+
 			'</div>'+
@@ -104,8 +104,9 @@ var access_token = '#prc.accessToken#';
 			},
 
 			methods:{
+
 				renderChart: function(){
-					console.log(this.widget)
+					console.log(this.widget.id)
 					var dataChart = new gapi.analytics.googleCharts.DataChart({
 						query: {
 							ids: 'ga:' + view,
@@ -179,12 +180,12 @@ var access_token = '#prc.accessToken#';
 				},
 
 				createWidget (item) {
-					console.log(item);
-					this.$http.post("#event.buildLink('cbadmin.module.SuperSeo.analytics.save')#",{action:'add_widget',settings:JSON.stringify(item)}, {emulateJSON:true}).then( function(response){
+
+					this.$http.post("#event.buildLink('cbadmin.module.SuperSeo.analytics.save')#",{settings:JSON.stringify(item)}, {emulateJSON:true}).then( function(response){
 						this.getWidgets();
 					})
 
-					this.showModal = false;
+					$('##myModal').modal('hide');
 
 				},
 
@@ -199,9 +200,16 @@ var access_token = '#prc.accessToken#';
 
 		        editWidget: function(item){
 
-					this.item = this.widgets.filter(function(elem){
+					$('##myModal').modal('show');
+					this.widget = this.widgets.filter(function(elem){
 						if(elem.id == item) return elem; 
 					})
+
+		        },
+
+		        showModal: function(flag){
+
+
 
 		        },
 
