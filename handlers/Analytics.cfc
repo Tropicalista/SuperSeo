@@ -40,7 +40,7 @@ component{
 
 		htmlhead text='<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.min.css" />';
 
-		event.setView( "analytics/index2" );
+		event.setView( "analytics/index" );
 
 	}
 
@@ -58,11 +58,17 @@ component{
 
 	function save(){
 
-        var data = deserializeJSON( rc.widget );
-		if( !structKeyExists( data, "id" ) ){
-			data.id = 0;
+		var default = {
+			id = 0,
+			x = 0,
+			y = 0,
+			width = 3,
+			height = 3,
+			minHeight = 3,
+			minWidth = 3
 		}
-
+        var data = deserializeJSON( rc.widget );
+        structAppend( data, default, true );
 
         var widget = populateModel( model=widgetService.get( data.id) , memento=data );
 

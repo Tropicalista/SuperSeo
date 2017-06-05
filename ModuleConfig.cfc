@@ -85,20 +85,23 @@ component {
 		var findArgs = { name="cbox-super-seo" };
 		var setting = settingService.findWhere( criteria=findArgs );
 
-		var settings = deserializeJSON( setting.getValue() );
-
 		// Let's add ourselves to the main menu in the Modules section
 		var menuService = controller.getWireBox().getInstance("AdminMenuService@cb");
 		
 		// Add Menu Contribution
 		menuService.addTopMenu( name="superSeo", label='<i class="fa fa-google"></i> SuperSeo', href="##" );
 
-		if( structKeyExists( settings, 'enableAnalytics' ) and settings.enableAnalytics ){
-			menuService.addSubMenu( topMenu="superSeo", name="Analytics", label="Analytics", href="#menuService.buildModuleLink( 'superSeo', 'analytics.index' )#");
-		}
+		if( !isNull( setting ) ){
+			var settings = deserializeJSON( setting.getValue() );
+			
+			if( structKeyExists( settings, 'enableAnalytics' ) and settings.enableAnalytics ){
+				menuService.addSubMenu( topMenu="superSeo", name="Analytics", label="Analytics", href="#menuService.buildModuleLink( 'superSeo', 'analytics.index' )#");
+			}
 
-		if( structKeyExists( settings, 'enableSearchConsole' ) and settings.enableSearchConsole ){
-			menuService.addSubMenu( topMenu="superSeo", name="Search Console", label="Search Console", href="#menuService.buildModuleLink( 'superSeo', 'wmt.index' )#");
+			if( structKeyExists( settings, 'enableSearchConsole' ) and settings.enableSearchConsole ){
+				menuService.addSubMenu( topMenu="superSeo", name="Search Console", label="Search Console", href="#menuService.buildModuleLink( 'superSeo', 'wmt.index' )#");
+			}
+
 		}
 
 		menuService.addSubMenu( topMenu="superSeo", name="Settings", label="Settings", href="#menuService.buildModuleLink( 'superSeo', 'home' )#");
@@ -123,9 +126,9 @@ component {
 	}
 
 	/**
-	* Fired when the module is unregistered and unloaded
+	* Fired when the module is deactivated
 	*/
-	function onUnload(){
+	function onDeactivate(){
 		// Let's remove ourselves to the main menu in the Modules section
 		var menuService = controller.getWireBox().getInstance("AdminMenuService@cb");
 		// Remove Menu Contribution
@@ -135,9 +138,19 @@ component {
 		var args = { name="cbox-super-seo" };
 		var setting = settingService.findWhere( criteria=args );
 		if( !isNull( setting ) ){
-			//settingService.delete( setting );
+			settingService.delete( setting );
 		}
 
+	}
+
+	/**
+	* Fired when the module is unregistered and unloaded
+	*/
+	function onUnload(){
+		// Let's remove ourselves to the main menu in the Modules section
+		var menuService = controller.getWireBox().getInstance("AdminMenuService@cb");
+		// Remove Menu Contribution
+		menuService.removeTopMenu( "superSeo" );
 	}
 
 }

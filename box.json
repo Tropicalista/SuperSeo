@@ -5,6 +5,8 @@
     "location":"https://github.com/Tropicalista/SuperSeo/archive/master.zip",
     "homepage":"https://github.com/Tropicalista/SuperSeo",
     "slug":"SuperSeo",
+    "createPackageDirectory":true,
+    "packageDirectory":"SuperSeo",
     "documentation":"https://github.com/Tropicalista/SuperSeo",
     "repository":{
         "type":"git",
